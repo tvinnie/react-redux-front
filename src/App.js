@@ -1,14 +1,27 @@
 import React, {Component} from 'react';
 import PageWrapper from './components/PageWrapper';
-import Home from './components/Pages/Home';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { connect } from 'react-redux'; 
+// import Services from './components/Common/Services';
+// import Portfolio from './components/Common/Portfolio';
+// import Team from './components/Common/Team';
+
+// Pages
 import About from './components/Pages/About';
-import Services from './components/Common/Services';
-import Portfolio from './components/Common/Portfolio';
-import Team from './components/Common/Team';
+import Home from './components/Pages/Home';
 import Contact from './components/Pages/Contact';
-import AdminWrapper from './components/AdminWrapper';
 import Login from './components/Pages/Login';
+
+// Admin pages
+import Dashboard from './components/Pages/Admin/Dashboard';
+import Users from './components/Pages/Admin/Users';
+import Posts from './components/Pages/Admin/Posts';
+
+// Wrappers
+import AdminWrapper from './components/AdminWrapper';
+import LoginWrapper from './components/LoginWrapper';
+
+
 
 class App extends Component{
   render(){
@@ -16,15 +29,33 @@ class App extends Component{
       <div className="App">
         <Router>
 
+            <Route
+            path="/admin/users"
+            component={Users}
+            />
+            <Route
+            path="/admin/posts"
+            component={Posts}
+            />
   
             <Route 
+            exact={true}
             path="/admin"
-            render = {props => (
-              <AdminWrapper>
-                <Login />
-              </AdminWrapper>
-
-              )}
+            render = {props => {
+              return(
+                <div>
+                  {this.props.auth.token ? 
+                    <AdminWrapper>
+                      <Dashboard />
+                    </AdminWrapper>
+                :
+                    <LoginWrapper>
+                        <Login />
+                    </LoginWrapper>
+                }
+                </div>
+              )
+            }}
             />
 
           
@@ -78,4 +109,18 @@ class App extends Component{
 
 }
 
-export default App;
+const mapStateToProps = state => {
+  return{
+    auth: state.auth
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
