@@ -16,6 +16,7 @@ import Login from './components/Pages/Login';
 import Dashboard from './components/Pages/Admin/Dashboard';
 import Users from './components/Pages/Admin/Users';
 import Posts from './components/Pages/Admin/Posts';
+import AddPost from './components/Pages/Admin/AddPost';
 
 // Wrappers
 import AdminWrapper from './components/AdminWrapper';
@@ -31,11 +32,52 @@ class App extends Component{
 
             <Route
             path="/admin/users"
-            component={Users}
+            render = {props=>{
+              return(
+                <div>
+                  {this.props.auth.token ?
+                    <AdminWrapper>
+                      <Users />
+                    </AdminWrapper>
+                  : null
+                  }
+                </div>
+              )
+             }}
             />
+
+          <Route
+          exact={true}
+            path="/admin/posts/add"
+           render = {props=>{
+            return(
+              <div>
+                {this.props.auth.token ?
+                  <AdminWrapper>
+                    <AddPost />
+                  </AdminWrapper>
+                : null
+                }
+              </div>
+            )
+           }}
+            />
+            
             <Route
+            exact={true}
             path="/admin/posts"
-            component={Posts}
+           render = {props=>{
+            return(
+              <div>
+                {this.props.auth.token ?
+                  <AdminWrapper>
+                    <Posts />
+                  </AdminWrapper>
+                : null
+                }
+              </div>
+            )
+           }}
             />
   
             <Route 
@@ -68,6 +110,7 @@ class App extends Component{
                 </PageWrapper>
               )}
               />
+
               <Route 
               exact={true}
               path="/about"
