@@ -15,7 +15,6 @@ class TableView extends Component{
         return(
                 <Paper>
                     <Table>
-
                         <TableHead>
                             <TableRow>
                                 {columns ?
@@ -33,13 +32,20 @@ class TableView extends Component{
                         <TableBody>
                             {rows ?
                                 rows.map((row,i)=> {
-                                    return columns.map((col,colIndex) => {
-                                        return (
-                                            <TableCell>
-                                                {row[col.name]}
-                                            </TableCell>
-                                        )
-                                    })
+                                    return (
+                                        <TableRow>
+                                            {
+                                                columns.map((col,colIndex) => {
+                                                    return (
+                                                        <TableCell>
+                                                            {row[col.name]}
+                                                        </TableCell>
+                                                    )
+                                                })
+                                            }
+                                        </TableRow>
+                                    ) 
+
                                 })
                             :null}
                         </TableBody>

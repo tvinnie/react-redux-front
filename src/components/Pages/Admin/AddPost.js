@@ -8,7 +8,8 @@ import * as Yup from 'yup';
 import {FormikTextField, FormikSelectField} from 'formik-material-fields';
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
- 
+import { withRouter } from "react-router-dom"; 
+
 const styles = theme => ({
     container: {
             margin: theme.spacing.unit * 3,
@@ -36,6 +37,15 @@ const styles = theme => ({
 );
 
 class AddPost extends Component{
+
+    componentDidUpdate(props, state) {
+        if(this.props.match.params.view === 'add' &&
+            this.props.admin.posts.filter(p => p.title === this.props.values.title).length > 0){
+                const post = this.props.admin.posts.filter(p => p.title === this.props.values.title)[0];
+                this.props.history.push('/admin/posts/edit/' + post.dispatch);
+        }
+    }
+
 
     render(){
         const {classes} = this.props;
@@ -102,7 +112,7 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
-export default (connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
 )(withFormik({
@@ -119,6 +129,7 @@ export default (connect(
         content: Yup.string().required()
     }),
     handleSubmit: (values, {setSubmitting,props}) => {
-
+        console.log('Saving....!!',props.addPost)
+        props.addPost(values,props.auth.token);
     }
 })(withStyles(styles)(AddPost))));

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import * as AdminActions from '../../../store/actions/adminActions';
 import Fab from '@material-ui/core/Fab';
 import EditIcon  from "@material-ui/icons/Edit";
-import { withStyles, WithStyles } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 
@@ -29,8 +29,10 @@ class Posts extends Component{
     }
 
     render(){
+
         const posts = this.props.admin.posts;
         const{classes} = this.props;
+
         return(
             <div>
             <h1>Posts</h1>

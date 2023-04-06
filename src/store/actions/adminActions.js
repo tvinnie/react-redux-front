@@ -25,7 +25,7 @@ export const getPosts = (token) => {
 
 export const addPost = (post, token) => {
     return dispatch => {
-        API.adPost(post,token,res =>{
+        API.addPost(post,token,res =>{
             dispatch({
                 type: 'POST_ADDED',
                 payload: res.data
@@ -33,3 +33,4 @@ export const addPost = (post, token) => {
         })
     }
 }
+
