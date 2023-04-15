@@ -8,14 +8,21 @@ import * as Yup from 'yup';
 import {FormikTextField, FormikSelectField} from 'formik-material-fields';
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
+import ImageIcon from "@material-ui/icons/Image";
 import { withRouter } from "react-router-dom"; 
+import $ from 'jquery'
+import API from "../../../utils/api";
 
+/* global $ */
 const styles = theme => ({
     container: {
             margin: theme.spacing.unit * 3,
             display: 'flex',
             flexDirection: 'row wrap',
             width: '100%'
+        },
+        Save: {
+            marginBottom: theme.spacing.unit * 2
         },
         FormControl: {
             margin: theme.spacing.unit
@@ -49,6 +56,13 @@ class AddPost extends Component{
             // when redux state changes post in admin reducer
             this.props.setValues(this.props.admin.post);
         }
+    }
+
+    uploadImage = (e) => {
+        const data = new FormData();
+        data.append('file', e.target.files[0], new Date().getTime().toString() + e.target.files[0].name);
+
+        this.props.uploadImage(data, this.props.auth.token, this.props.admin.post.id, this.props.auth.user.userId)
     }
 
     componentDidMount(props, state) {
@@ -96,13 +110,41 @@ class AddPost extends Component{
                         ]}
                         fullWidth
                     />
+
+                    <div className={classes.Save}>
                     <Button
                     variant="contained"
                     color="secondary"
                     onClick={e=>{
-                        this.props.handleSubmit()
+                        this.props.handleSubmit();
                     }}
                     ><SaveIcon/>Save</Button>
+                    </div>
+
+                    <div>
+                    {
+
+                    }
+                    </div>
+                    
+
+                    <div>
+                        <Button 
+                        variant="contained" 
+                        color="primary"
+                        onClick={e => {
+                            $('.MyFile').trigger('click');
+                        }}
+                        ><ImageIcon /> Upload Post Image
+                        </Button>
+
+                        <input 
+                        type="file"
+                        style={{display: 'none'}}
+                        className="MyFile"
+                        onChange={this.uploadImage}
+                        />
+                    </div>
 
                 </Paper>
             </Form>
@@ -126,6 +168,9 @@ const mapDispatchToProps = dispatch => ({
     },
     getSinglePost: (id, token) => {
         dispatch(AdminActions.getSinglePost(id,token));
+    },
+    uploadImage: (data, token, postId, userId) => {
+        dispatch(AdminActions.uploadImage(data, token, postId, userId));
     }
 });
 

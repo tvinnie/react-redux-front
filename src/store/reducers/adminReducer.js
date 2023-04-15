@@ -44,6 +44,14 @@ const admin = (state = defaultState, action) => {
                     }
                 })
             }
+        case 'UPLOADED_IMAGE':
+            return {
+                ...state,
+                post: {
+                    ...state.post,
+                    postImage: [action.payload]
+                }
+            }
         default:
             return state
     }
