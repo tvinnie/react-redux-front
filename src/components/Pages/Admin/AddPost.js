@@ -10,8 +10,10 @@ import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import ImageIcon from "@material-ui/icons/Image";
 import { withRouter } from "react-router-dom"; 
-import $ from 'jquery'
+import $ from 'jquery';
 import API from "../../../utils/api";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
 
 /* global $ */
 const styles = theme => ({
@@ -39,6 +41,9 @@ const styles = theme => ({
             margin: theme.spacing.unit * 1,
             padding: theme.spacing.unit * 3
 
+        },
+        postImage: {
+            width: "100%"
         }
     }
 );
@@ -120,12 +125,17 @@ class AddPost extends Component{
                     }}
                     ><SaveIcon/>Save</Button>
                     </div>
-
-                    <div>
-                    {
-
-                    }
-                    </div>
+                    
+                    {this.props.admin.post.PostImage ? 
+                        this.props.admin.post.PostImage.length > 0 ?
+                            <img
+                            src={API.makeFileURL(this.props.admin.post.PostImage[0].url, this.props.auth.token)}
+                            className={classes.postImage}
+                            alt="post_image_file"
+                            />
+                        :null
+                    : null}
+                    
                     
 
                     <div>

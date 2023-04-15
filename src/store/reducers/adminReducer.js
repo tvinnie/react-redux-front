@@ -49,7 +49,7 @@ const admin = (state = defaultState, action) => {
                 ...state,
                 post: {
                     ...state.post,
-                    postImage: [action.payload]
+                    PostImage: [action.payload]
                 }
             }
         default:
