@@ -76,6 +76,25 @@ class AddPost extends Component{
             }
     }
 
+    modules = {
+        toolbar: [
+            ['bold','italic','underline','strike'],
+            [{'header': 1}, {'header': 2}],
+            [{'list':'ordered'}, {'list': 'bullet'}],
+            [{'indent': '-1'}, {'indent': '+1'}],
+            [{'size': ['small','medium','large','huge']}],
+            [{'color': []}, {'background': []}],
+            ['image'],
+            ['clean']
+        ]
+    }
+
+    formats = [
+        'header',
+        'bold', 'italic','underline','strike','blockquote','script',
+        'list', 'bullet','indent',
+        'link','image','color', 'code-block'
+    ]
 
     render(){
         const {classes} = this.props;
@@ -97,12 +116,21 @@ class AddPost extends Component{
                         label="Slug"
                         margin="normal"
                     />
-                    <FormikTextField
+
+                    <ReactQuill 
+                    value={this.props.values.content}
+                    placeholder="Write some cool stuff"
+                    modules={this.modules}
+                    formats={this.formats}
+                    onChange={val => this.props.setFieldValue('content', val)}
+                    />
+
+                    {/* <FormikTextField
                         name="content"
                         label="Content"
                         margin="normal"
                         fullWidth
-                    />
+                    /> */}
                 </Paper>
                 <Paper className={classes.rightSide}>
                     <FormikSelectField

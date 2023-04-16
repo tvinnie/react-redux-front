@@ -30,7 +30,11 @@ const admin = (state = defaultState, action) => {
         case 'UPDATED_POST':
             return {
                 ...state,
-                post: action.payload,
+                post: {
+                    ...state.post,
+                    ...action.payload
+                } 
+                ,
                 posts: state.posts.map(p => {
                     if(p.id === action.payload.id){
                         // this is the existing post in redux that had been updated
