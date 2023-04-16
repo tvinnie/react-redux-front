@@ -11,6 +11,8 @@ import About from './components/Pages/About';
 import Home from './components/Pages/Home';
 import Contact from './components/Pages/Contact';
 import Login from './components/Pages/Login';
+import Blog from './components/Pages/Blog';
+import Single from './components/Pages/Single';
 
 // Admin pages
 import Dashboard from './components/Pages/Admin/Dashboard';
@@ -162,6 +164,25 @@ class App extends Component{
                 </PageWrapper>
               )}
               />
+            <Route
+              exact={true}
+              path="/blog/:slug"
+              render={props => (
+                <PageWrapper>
+                  <Single {...props} />
+                </PageWrapper>
+              )}
+            />
+
+            <Route
+              exact={true}
+              path="/blog"
+              render={props => (
+                <PageWrapper>
+                  <Blog {...props} />
+                </PageWrapper>
+              )}
+            />
         </Router>
       </div>
     );
