@@ -18,44 +18,53 @@ const API = {
             success(res)
         });
      },
+     getPostCount: (success) => {
+        axios.get(`${host}/api/Posts/count`)
+        .then(res => {
+            success(res);
+        })
+     },
      getPosts: (token, success) => {
         axios.get(`${host}/api/Posts?access_token=${token}`)
         .then(res => {
             success(res)
         });
      },
+     
      getSitePosts: (skip, success) => {
         axios.get(`${host}/api/Posts`, {
             params:{
                 filter: {
                     skip: skip,
-                    limit: 10,
-                    include: 'PostImage'
+                    limit: 5,
+                    include: 'PostImage',
+
+                    // fields:{
+                    //     id:true,
+                    //     title: true,
+                    //     slug: true,
+                    //     content:false
+                    // }
+                    
                 }
             }
         })
         .then(res => {
-            success(res)
+            success(res);
         });
-     },
-     updatePost:(post, token, success) => {
-        axios.patch(`${host}/api/Posts/${post.id}?access_token=${token}`, post)
-        .then(res => {
-            success(res)
-        })
      },
      addPost: (post,token, success) => {
         console.log("we are adding:", post)
         axios.post(`${host}/api/Posts?access_token=${token}`, post)
         .then(res =>  {
-            success(res)
+            success(res);
         });
      },
-     uploadImage: (data, token, postId, userId, success) => {
-        axios.post(`${host}/api/PostImages/upload?post_id=${postId}&access_token=${token}&user_id=${userId}`, data)
+     updatePost:(post, token, success) => {
+        axios.patch(`${host}/api/Posts/${post.id}?access_token=${token}`, post)
         .then(res => {
-            success(res)
-        });
+            success(res);
+        })
      },
      getSinglePost: (id, token, success) => {
         axios.get(`${host}/api/Posts/${id}?access_token=${token}`, {
@@ -66,9 +75,30 @@ const API = {
             }
         })
         .then(res => {
-            success(res)
+            success(res);
         });
+     },
+     uploadImage: (data, token, postId, userId, success) => {
+        axios.post(`${host}/api/PostImages/upload?post_id=${postId}&access_token=${token}&user_id=${userId}`, data)
+        .then(res => {
+            success(res);
+        });
+     },
+     getPostBySlug: (slug, token, success) => {
+        axios.get(`${host}/api/Posts/findOne?access_token=${token}`, {
+            params: {
+                filter: {
+                    where: {
+                        slug: slug
+                    },
+                }
+            }
+        })
+        .then(res => {
+            success(res);
+        })
      }
+
 }
 
 export default API;
